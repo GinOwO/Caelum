@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>zoom-out.svg</file>
+        <file>zoom-in.svg</file>
+        <file>clipboard.svg</file>
+        <file>copy.svg</file>
+        <file>scissors.svg</file>
+        <file>save.svg</file>
+        <file>file-plus-2.svg</file>
+        <file>file-text.svg</file>
+        <file>rotate-right.svg</file>
+        <file>rotate-left.svg</file>
+        <file>search.svg</file>
+        <file>play.svg</file>
+        <file>play-circle.svg</file>
+    </qresource>
+</RCC>
