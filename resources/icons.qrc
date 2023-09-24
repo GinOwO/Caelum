@@ -1,17 +1,32 @@
 <RCC>
-    <qresource prefix="/icons">
-        <file>zoom-out.svg</file>
-        <file>zoom-in.svg</file>
-        <file>clipboard.svg</file>
-        <file>copy.svg</file>
-        <file>scissors.svg</file>
-        <file>save.svg</file>
-        <file>file-plus-2.svg</file>
-        <file>file-text.svg</file>
-        <file>rotate-right.svg</file>
-        <file>rotate-left.svg</file>
-        <file>search.svg</file>
-        <file>play.svg</file>
-        <file>play-circle.svg</file>
+    <qresource prefix="/icons/light">
+        <file>light/debug.svg</file>
+        <file>light/run.svg</file>
+        <file>light/search.svg</file>
+        <file>light/undo.svg</file>
+        <file>light/redo.svg</file>
+        <file>light/file-open.svg</file>
+        <file>light/save.svg</file>
+        <file>light/cut.svg</file>
+        <file>light/copy.svg</file>
+        <file>light/clipboard.svg</file>
+        <file>light/zoom-in.svg</file>
+        <file>light/zoom-out.svg</file>
+        <file>light/file-new.svg</file>
+    </qresource>
+    <qresource prefix="/icons/dark">
+        <file>dark/redo.svg</file>
+        <file>dark/undo.svg</file>
+        <file>dark/clipboard.svg</file>
+        <file>dark/copy.svg</file>
+        <file>dark/cut.svg</file>
+        <file>dark/save.svg</file>
+        <file>dark/zoom-out.svg</file>
+        <file>dark/zoom-in.svg</file>
+        <file>dark/search.svg</file>
+        <file>dark/file-open.svg</file>
+        <file>dark/file-new.svg</file>
+        <file>dark/run.svg</file>
+        <file>dark/debug.svg</file>
     </qresource>
 </RCC>

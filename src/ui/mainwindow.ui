@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>859</width>
     <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Caelum</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTextEdit" name="textEdit">
@@ -32,7 +35,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>859</width>
      <height>23</height>
     </rect>
    </property>
@@ -57,15 +60,24 @@
     <addaction name="actionPaste"/>
     <addaction name="separator"/>
     <addaction name="actionFind"/>
-    <addaction name="actionReplace"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
     </property>
+    <widget class="QMenu" name="menuThemes">
+     <property name="title">
+      <string>Themes</string>
+     </property>
+     <addaction name="actionMaterial_Dark"/>
+     <addaction name="actionDark"/>
+     <addaction name="actionLight"/>
+    </widget>
     <addaction name="actionZoom_In"/>
     <addaction name="actionZoom_Out"/>
+    <addaction name="separator"/>
+    <addaction name="menuThemes"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -79,7 +91,6 @@
    <addaction name="menuView"/>
    <addaction name="menuTools"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -102,7 +113,6 @@
    <addaction name="actionPaste"/>
    <addaction name="separator"/>
    <addaction name="actionFind"/>
-   <addaction name="actionReplace"/>
    <addaction name="separator"/>
    <addaction name="actionZoom_In"/>
    <addaction name="actionZoom_Out"/>
@@ -113,7 +123,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset resource="../../resources/icons.qrc">
-     <normaloff>:/icons/file-plus-2.svg</normaloff>:/icons/file-plus-2.svg</iconset>
+     <normaloff>:/icons/dark/dark/file-new.svg</normaloff>:/icons/dark/dark/file-new.svg</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -125,7 +135,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset resource="../../resources/icons.qrc">
-     <normaloff>:/icons/file-text.svg</normaloff>:/icons/file-text.svg</iconset>
+     <normaloff>:/icons/dark/dark/file-open.svg</normaloff>:/icons/dark/dark/file-open.svg</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -136,8 +146,9 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="../../resources/icons.qrc">
-     <normaloff>:/icons/save.svg</normaloff>:/icons/save.svg</iconset>
+    <iconset>
+     <normaloff>:/icons/save.svg</normaloff>
+     <normalon>:/icons/dark/dark/save.svg</normalon>:/icons/save.svg</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -149,7 +160,7 @@
   <action name="actionSaveAs">
    <property name="icon">
     <iconset>
-     <normalon>:/icons/save.svg</normalon>
+     <normalon>:/icons/dark/dark/save.svg</normalon>
     </iconset>
    </property>
    <property name="text">
@@ -161,9 +172,9 @@
   </action>
   <action name="actionUndo">
    <property name="icon">
-    <iconset>
-     <normalon>:/icons/rotate-left.svg</normalon>
-    </iconset>
+    <iconset resource="../../resources/icons.qrc">
+     <normaloff>:/icons/dark/dark/undo.svg</normaloff>
+     <normalon>:/icons/rotate-left.svg</normalon>:/icons/dark/dark/undo.svg</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -172,7 +183,7 @@
   <action name="actionRedo">
    <property name="icon">
     <iconset>
-     <normalon>:/icons/rotate-right.svg</normalon>
+     <normalon>:/icons/dark/dark/redo.svg</normalon>
     </iconset>
    </property>
    <property name="text">
@@ -182,7 +193,7 @@
   <action name="actionCut">
    <property name="icon">
     <iconset>
-     <normalon>:/icons/scissors.svg</normalon>
+     <normalon>:/icons/dark/dark/cut.svg</normalon>
     </iconset>
    </property>
    <property name="text">
@@ -192,7 +203,7 @@
   <action name="actionCopy">
    <property name="icon">
     <iconset>
-     <normalon>:/icons/copy.svg</normalon>
+     <normalon>:/icons/dark/dark/copy.svg</normalon>
     </iconset>
    </property>
    <property name="text">
@@ -202,7 +213,7 @@
   <action name="actionPaste">
    <property name="icon">
     <iconset>
-     <normalon>:/icons/clipboard.svg</normalon>
+     <normalon>:/icons/dark/dark/clipboard.svg</normalon>
     </iconset>
    </property>
    <property name="text">
@@ -212,7 +223,7 @@
   <action name="actionFind">
    <property name="icon">
     <iconset>
-     <normalon>:/icons/search.svg</normalon>
+     <normalon>:/icons/dark/dark/search.svg</normalon>
     </iconset>
    </property>
    <property name="text">
@@ -222,61 +233,83 @@
     <string>Ctrl+F</string>
    </property>
   </action>
-  <action name="actionReplace">
-   <property name="icon">
-    <iconset resource="../../resources/icons.qrc">
-     <normaloff>:/icons/copy.svg</normaloff>:/icons/copy.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Find&amp;Replace</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+F</string>
-   </property>
-  </action>
   <action name="actionZoom_In">
    <property name="icon">
-    <iconset resource="../../resources/icons.qrc">
-     <normaloff>:/icons/zoom-in.svg</normaloff>:/icons/zoom-in.svg</iconset>
+    <iconset>
+     <normaloff>:/icons/zoom-in.svg</normaloff>
+     <normalon>:/icons/dark/dark/zoom-in.svg</normalon>:/icons/zoom-in.svg</iconset>
    </property>
    <property name="text">
     <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+=</string>
    </property>
   </action>
   <action name="actionZoom_Out">
    <property name="icon">
     <iconset>
-     <normalon>:/icons/zoom-out.svg</normalon>
+     <normalon>:/icons/dark/dark/zoom-out.svg</normalon>
     </iconset>
    </property>
    <property name="text">
     <string>Zoom Out</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
   </action>
   <action name="actionRun">
    <property name="icon">
-    <iconset resource="../../resources/icons.qrc">
-     <normaloff>:/icons/play.svg</normaloff>:/icons/play.svg</iconset>
+    <iconset>
+     <normaloff>:/icons/play.svg</normaloff>
+     <normalon>:/icons/dark/dark/run.svg</normalon>:/icons/play.svg</iconset>
    </property>
    <property name="text">
     <string>Run</string>
    </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
   </action>
   <action name="actionDebug">
    <property name="icon">
-    <iconset resource="../../resources/icons.qrc">
-     <normaloff>:/icons/play-circle.svg</normaloff>:/icons/play-circle.svg</iconset>
+    <iconset>
+     <normaloff>:/icons/play-circle.svg</normaloff>
+     <normalon>:/icons/dark/dark/debug.svg</normalon>:/icons/play-circle.svg</iconset>
    </property>
    <property name="text">
     <string>Debug</string>
    </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
   </action>
   <action name="actionFindNext">
+   <property name="icon">
+    <iconset resource="../../resources/icons.qrc">
+     <normaloff>:/icons/dark/dark/search.svg</normaloff>:/icons/dark/dark/search.svg</iconset>
+   </property>
    <property name="text">
     <string>FindNext</string>
    </property>
    <property name="shortcut">
     <string>F3</string>
+   </property>
+  </action>
+  <action name="actionMaterial_Dark">
+   <property name="text">
+    <string>Dark</string>
+   </property>
+  </action>
+  <action name="actionDark">
+   <property name="text">
+    <string>Material Dark</string>
+   </property>
+  </action>
+  <action name="actionLight">
+   <property name="text">
+    <string>Console Dark</string>
    </property>
   </action>
  </widget>

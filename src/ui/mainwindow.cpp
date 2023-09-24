@@ -5,12 +5,16 @@
 
 #include <QDir>
 #include <QFile>
+#include <QFont>
 #include <QString>
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
 #include <QMainWindow>
 #include <QInputDialog>
+#include <QApplication>
+
+const std::vector<std::string> _themes{":/themes/qss/MaterialDark.qss", ":/themes/qss/dark.qss",":/themes/qss/light.qss"};
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow){
@@ -21,12 +25,19 @@ MainWindow::MainWindow(QWidget *parent)
     saveOnClose.setStandardButtons(QMessageBox::Cancel | QMessageBox::Discard);
     saveOnClose.addButton("Save and close", QMessageBox::AcceptRole);
     saveOnClose.setDefaultButton(QMessageBox::Cancel);
+    ui->textEdit->setFontPointSize(12);
+    for(auto&c:_themes){
+        QFile handle(c.c_str());
+        handle.open(QFile::ReadOnly | QFile::Text);
+        this->themes.push_back(handle.readAll());
+        handle.close();
+    }
+    this->setTheme(1);
 }
 
 MainWindow::~MainWindow(){
     delete ui;
 }
-
 
 void MainWindow::on_actionUndo_triggered(){
     ui->textEdit->undo();
@@ -152,4 +163,37 @@ void MainWindow::on_actionFindNext_triggered(){
 void MainWindow::on_actionFind_triggered(){
     this->searchTerm = "";
     this->on_actionFindNext_triggered();
+}
+
+void MainWindow::on_actionZoom_In_triggered(){
+    if(ui->textEdit->fontPointSize()<47){
+        ui->textEdit->setFontPointSize(ui->textEdit->fontPointSize()+2);
+        ui->textEdit->setText(ui->textEdit->document()->toPlainText());
+    }
+}
+
+void MainWindow::on_actionZoom_Out_triggered(){
+    if(ui->textEdit->fontPointSize()>13) ui->textEdit->setFontPointSize(ui->textEdit->fontPointSize()-2);
+    ui->textEdit->setText(ui->textEdit->document()->toPlainText());
+}
+
+void MainWindow::setTheme(int k){
+    switch(k){
+    default:
+    case 0: this->setStyleSheet(this->themes[0]); break;
+    case 1: this->setStyleSheet(this->themes[1]); break;
+    case 2: this->setStyleSheet(this->themes[2]); break;
+    }
+}
+
+void MainWindow::on_actionMaterial_Dark_triggered(){
+    this->setTheme(1);
+}
+
+void MainWindow::on_actionDark_triggered(){
+    this->setTheme(0);
+}
+
+void MainWindow::on_actionLight_triggered(){
+    this->setTheme(2);
 }

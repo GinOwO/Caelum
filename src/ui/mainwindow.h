@@ -1,6 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <vector>
+#include <map>
+#include <string>
+
 #include <QFile>
 #include <QString>
 #include <QFileDialog>
@@ -42,12 +46,23 @@ private slots:
 
     void on_actionFindNext_triggered();
 
+    void on_actionZoom_In_triggered();
+
+    void on_actionZoom_Out_triggered();
+
+    void on_actionMaterial_Dark_triggered();
+
+    void on_actionDark_triggered();
+
+    void on_actionLight_triggered();
+
 private:
     Ui::MainWindow *ui;
     QMessageBox saveOnClose;
     QString filePath="";
     QString searchTerm="";
     QFile* fileHandle=nullptr;
+    std::vector<QString> themes;
     bool fileStatus=false;
 
     void openFile(int=0);
@@ -55,5 +70,6 @@ private:
     void writeFile();
     void readFile();
     void find();
+    void setTheme(int);
 };
 #endif // MAINWINDOW_H

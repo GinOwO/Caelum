@@ -20,14 +20,14 @@ set(PROJECT_SOURCES
     main.cpp
     ${HEADER_SRC}
     ${MAIN_SOURCES}
+    src/ui/mainwindow.ui src/ui/mainwindow.h src/ui/mainwindow.cpp
+    resources/icons.qrc
 )
 
 qt_add_executable(Caelum
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
-    src/ui/mainwindow.h src/ui/mainwindow.cpp src/ui/mainwindow.ui
-    resources/icons.qrc
-
+    resources/themes.qrc
 )
 
 target_link_libraries(Caelum PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
