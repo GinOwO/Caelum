@@ -1,0 +1,33 @@
+name: Build Linux
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  QT_VERSION: "6.5.0"
+  BUILD_TYPE: Release
+  COMPILER: gcc_64
+  BUILD_GEN: "Ninja"
+  COMPILER_PATH: ${{github.workspace}}/qt/Qt/6.5.0/gcc_64
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{ env.QT_VERSION }}
+        cache: 'true'
+    
+    - name: Install Ninja
+      run: sudo apt-get install ninja-build
+
+    - name: Build
+      run: cmake -S . -B build -G "${{ env.BUILD_GEN }}" && cmake --build build --config ${{ env.BUILD_TYPE }}
