@@ -30,7 +30,7 @@ To build Caelum, you require the following on your system:
 
 Open a command line in your desired folder, clone the repo with the following command
 ```
-git clone https://github.com/KThankYou/Caelum.git
+git clone https://github.com/GinOwO/Caelum.git
 ```
 
 ## Building
