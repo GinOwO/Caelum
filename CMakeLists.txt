@@ -14,14 +14,14 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 file(GLOB MAIN_SOURCES "${CMAKE_SOURCE_DIR}/src/main/*.cpp")
-fiLe(GLOB HEADER_SRC "${CMAKE_SOURCE_DIR}/include/*")
+fiLe(GLOB HEADER_SRC "${CMAKE_SOURCE_DIR}/include/*.h")
 
 set(PROJECT_SOURCES
     main.cpp
     ${HEADER_SRC}
     ${MAIN_SOURCES}
     src/ui/mainwindow.ui src/ui/mainwindow.h src/ui/mainwindow.cpp
-    resources/icons.qrc
+    resources/icons.qrc resources/themes.qrc
 )
 
 qt_add_executable(Caelum
