@@ -27,5 +27,8 @@ jobs:
         tools: 'tools_cmake tools_ninja'
         cache: 'true'
 
+    - name: Install Ninja
+      uses: seanmiddleditch/gha-setup-ninja@master
+
     - name: Build
       run: cmake -S . -B build -G "${{ env.BUILD_GEN }}" && cmake --build build --config ${{ env.BUILD_TYPE }}
