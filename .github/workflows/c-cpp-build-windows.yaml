@@ -16,30 +16,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up MSYS2
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: mingw64
-        install: >-
-          mingw-w64-x86_64-openssl
-          git
-          make
-        pacboy: >-
-          toolchain:p
-          cmake:p
-          ninja:p
-
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        version: ${{ env.QT_VERSION }}
-        host: "windows"
-        target: "desktop"
-        arch: "win64_msvc2019_64"
+        aqtversion: '==3.1.*'
+        version: '6.5.0'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_mingw'
+        tools: 'tools_cmake tools_ninja'
         cache: 'true'
-
-    - name: Install Ninja
-      uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Build
       run: cmake -S . -B build -G "${{ env.BUILD_GEN }}" && cmake --build build --config ${{ env.BUILD_TYPE }}
