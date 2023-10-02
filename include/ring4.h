@@ -4,7 +4,7 @@
 #include "ring3.h"
 
 #include <functional>
-#include <iostream>
+#include <sstream>
 
 /*
 Class: Ring4
@@ -13,7 +13,7 @@ Reserved for future instruction implementations.
 
 class Ring4 : public Ring3{
 protected:
-    std::ostream& OUT;
+    std::stringstream& OUT;
     
     void PUTS();
     void FLUSH();
@@ -27,7 +27,7 @@ public:
         std::function<void(unsigned long long)> pushFn,
         std::function<unsigned long long()> popFn,
         std::function<int(int)> getRegSz,
-        std::ostream& out = std::cout
+        std::stringstream& out
     ) : Ring3(setReg, getReg, setFlg, getFlg, setPtr, pushFn, popFn, getRegSz), OUT(out){}
     ~Ring4(){};
 };

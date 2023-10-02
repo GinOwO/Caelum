@@ -9,16 +9,16 @@
 
 namespace RegexPatterns{
     std::regex elimComment = std::regex(R"/(^([^;]+))/");
-    std::regex mainPattern = std::regex(R"/(^ *(?:(\w+) *\: *)?(\w{2,6}) +((?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?)|(?:(?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:[\dA-F]+H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[[^\n\r,.]+\])) *(?:, *((?:\d+)|(?:[\dA-F]+H)|(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?)|(?:(?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:[\dA-F]+H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[[^\n\r,.]+\])))? *$)/", std::regex_constants::icase);
-    std::regex mainPattern1 = std::regex(R"/(^ *(?:(\w+) *\: *)?(\w{2,6}) +((?:\d+)|(?:[\dA-F]+H)|(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?)|(?:(?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:[\dA-F]+H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[[^\n\r,.]+\])) *$)/", std::regex_constants::icase);
-    std::regex mainPattern0 = std::regex(R"/(^ *(?:(\w+) *\: *)?(\w{2,6}) *$)/", std::regex_constants::icase);
-    std::regex jumpPattern = std::regex(R"/(^ *(?:(\w+) *\: *)?(j\w{1,3}|LOOP[N]?[E]?) +(\w+) *$)/", std::regex_constants::icase);
-    std::regex callPattern = std::regex(R"/(^ *(?:(\w+) *\: *)?(call) +(\w+) *$)/", std::regex_constants::icase);
+    std::regex mainPattern = std::regex(R"/(^[ \t]*(?:(\w+)[ \t]*\:[ \t]*)?(\w{2,6})[ \t]+((?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?)|(?:(?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:\d[\dA-F]*H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[[^\n\r,.]+\]))[ \t]*(?:,[ \t]*((?:\d+)|(?:\d[\dA-F]*H)|(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?)|(?:(?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:\d[\dA-F]*H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[[^\n\r,.]+\])))?[ \t]*$)/", std::regex_constants::icase);
+    std::regex mainPattern1 = std::regex(R"/(^[ \t]*(?:(\w+)[ \t]*\:[ \t]*)?(\w{2,6})[ \t]+((?:\d+)|(?:\d[\dA-F]*H)|(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?)|(?:(?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:\d[\dA-F]*H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[[^\n\r,.]+\]))[ \t]*$)/", std::regex_constants::icase);
+    std::regex mainPattern0 = std::regex(R"/(^[ \t]*(?:(\w+)[ \t]*\:[ \t]*)?(\w{2,6})[ \t]*$)/", std::regex_constants::icase);
+    std::regex jumpPattern = std::regex(R"/(^[ \t]*(?:(\w+)[ \t]*\:[ \t]*)?(j\w{1,3}|LOOP[N]?[E]?)[ \t]+(\w+)[ \t]*$)/", std::regex_constants::icase);
+    std::regex callPattern = std::regex(R"/(^[ \t]*(?:(\w+)[ \t]*\:[ \t]*)?(call)[ \t]+(\w+)[ \t]*$)/", std::regex_constants::icase);
     std::regex validLabel = std::regex(R"/(^\s*([_a-zA-Z]\w*)\s*$)/");
     std::regex isNumeric = std::regex(R"/(^\s*(\d+)\s*$)/");
-    std::regex isHex = std::regex(R"/(^\s*([\dA-F]+)H\s*$)/", std::regex_constants::icase);
-    std::regex isSubExpr = std::regex(R"/((?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:[\dA-F]+H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[([^\n\r,.]+)\])/", std::regex_constants::icase);
-    std::regex token = std::regex(R"/((?:([ER]?[A-D]X|[A-D][HL]|[\dA-F]+H|\d+|[+\-/*\(\)]|[ER]?[SD]I|R[89][DWB]?|R1[0-5][DWB]?)| ))/", std::regex_constants::icase);
+    std::regex isHex = std::regex(R"/(^\s*(\d[\dA-F]*)H\s*$)/", std::regex_constants::icase);
+    std::regex isSubExpr = std::regex(R"/((?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:\d[\dA-F]*H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[([^\n\r,.]+)\])/", std::regex_constants::icase);
+    std::regex token = std::regex(R"/((?:([ER]?[A-D]X|[A-D][HL]|\d[\dA-F]*H|\d+|[+\-/*\(\)]|[ER]?[SD]I|R[89][DWB]?|R1[0-5][DWB]?)| ))/", std::regex_constants::icase);
     std::regex emptyLine = std::regex(R"/(^\s*$)/");
     std::regex global = std::regex(R"/(^\s*global\s+([_a-zA-Z]\w*)\s*$)/", std::regex_constants::icase);
     std::regex hlt = std::regex(R"/(^\s*hlt\s*$)/", std::regex_constants::icase);
@@ -57,7 +57,7 @@ Lexer::Lexer(){
     1 = 0 operand
     2 = 1 operand
     3 = 2 operands
-    */
+   */
     mneMap = std::unordered_map<std::string, int>{
         // instructions that take 2 operands
         {"mov",  3000},  {"xchg",  3001},  {"lea",    3002},

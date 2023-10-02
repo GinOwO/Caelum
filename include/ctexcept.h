@@ -66,6 +66,10 @@ class BadSyntaxException : public std::exception{
         return e.c_str();
     }
 public:
+    std::string error(){
+        return e;
+    }
+public:
     BadSyntaxException(std::string e = "Bad syntax"){
         this->e = e;
     }

@@ -32,7 +32,7 @@ Interpreter::Interpreter(){
     std::function<size_t()> getPtr = std::bind(&Interpreter::getPointer, this);
     std::function<void(size_t)> setPtr = std::bind(&Interpreter::setPointer, this, std::placeholders::_1);
 
-    this->instrHandler = new InstructionHandler(setRegisterFn, getRegisterFn, setFlagFn, getFlagFn, setPtr, pushFn, popFn, getRegSizeFn, getPtr);
+    this->instrHandler = new InstructionHandler(setRegisterFn, getRegisterFn, setFlagFn, getFlagFn, setPtr, pushFn, popFn, getRegSizeFn, getPtr, output);
 }
 
 Interpreter::~Interpreter(){
@@ -120,6 +120,8 @@ type:
 3 = operator, only for tokens
 */
 void Interpreter::execute(){
+    if(code.size() == 0) throw Exception::BadSyntaxException("Code not built");
+    this->output.clear();
     int cnt, i, type, lineNum, memTemp1, memTemp2;
     unsigned long long a, b, val;
     while(true){
@@ -238,10 +240,12 @@ void Interpreter::execute(){
 
 void Interpreter::build(const std::string& instructions){
     this->code.clear();
+    this->labelMap.clear();
+    this->callStack = std::stack<unsigned long long>();
     unsigned long long i=0, j=0;
     size_t h = std::hash<std::string>{}(instructions);
     if(hash == h) return;
-    hash = h; std::string label, op, op1, op2, instr;
+    std::string label, op, op1, op2, instr;
     std::stringstream ss(instructions);
     
     do std::getline(ss, instr, '\n'), j++; 
@@ -321,13 +325,14 @@ void Interpreter::build(const std::string& instructions){
         if(!this->labelMap.count(ptr)) throw Exception::MissingGlobalException();
         ptr = this->labelMap[ptr];
         this->resolveLabels();
+        hash = h;
     }
     catch(Exception::BadLabelException){
         throw Exception::BadSyntaxException("Bad label at line "+std::to_string(j));
     }
-    catch(Exception::BadInstructionException){
-        throw Exception::BadSyntaxException("Bad instruction at line "+std::to_string(j));
-    }
+    //catch(Exception::BadInstructionException){
+    //    throw Exception::BadSyntaxException("Bad instruction at line "+std::to_string(j));
+    //}
     catch(Exception::LabelRedefinedException){
         throw Exception::BadSyntaxException("Label redefined at line "+std::to_string(j));
     }
@@ -362,4 +367,8 @@ size_t Interpreter::getPointer() noexcept{
 unsigned long long Interpreter::getMemory(unsigned long long addr){
     if(addr >= this->memory.size()) throw Exception::BadMemoryException();
     return this->memory[addr];
+}
+
+void Interpreter::setMemory(unsigned long long a, unsigned long long b){
+    this->memory[a] = b;
 }

@@ -1,5 +1,10 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "./ui_mainwindow.h"
+
+#include "outputview.h"
+
+#include "interpreter.h"
+#include "ctexcept.h"
 
 #include <algorithm>
 
@@ -33,10 +38,13 @@ MainWindow::MainWindow(QWidget *parent)
         handle.close();
     }
     this->setTheme(1);
+    this->interpreter = new Interpreter();
+    this->output.setInterpreter(this->interpreter);
 }
 
 MainWindow::~MainWindow(){
     delete ui;
+    delete this->interpreter;
 }
 
 void MainWindow::on_actionUndo_triggered(){
@@ -127,7 +135,7 @@ void MainWindow::writeFile(){
     }
     QTextStream out(fileHandle);
     QString fileContent = ui->textEdit->toPlainText();
-    out << fileContent << '\n';
+    out << fileContent;
     this->closeFile();
 }
 
@@ -196,4 +204,34 @@ void MainWindow::on_actionDark_triggered(){
 
 void MainWindow::on_actionLight_triggered(){
     this->setTheme(2);
+}
+
+void MainWindow::on_actionBuild_triggered(){
+    try{
+        this->interpreter->build(
+            this->ui->textEdit->document()->toPlainText().toStdString()
+        );
+    }
+    catch(Exception::BadSyntaxException& e){
+        QMessageBox::critical(this, "Build Error", QString::fromStdString(e.error()));
+        return;
+    }
+    QMessageBox::information(this, "Build Finished", "Build finished successfully");
+}
+
+void MainWindow::on_actionRun_triggered(){
+    try{
+        this->interpreter->execute();
+    }
+    catch(Exception::BadSyntaxException& e){
+        QMessageBox::critical(this, "Build Error", QString::fromStdString(e.error()));
+        return;
+    }
+    this->dispOutput();
+}
+
+void MainWindow::dispOutput(){
+    this->output.setValues();
+    this->output.setStyleSheet(this->styleSheet());
+    this->output.show();
 }

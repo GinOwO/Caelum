@@ -26,7 +26,8 @@ public:
         std::function<void(unsigned long long)> pushFn,
         std::function<unsigned long long()> popFn,
         std::function<int(int)> getRegSz,
-        std::function<size_t()> getPtr
+        std::function<size_t()> getPtr,
+        std::stringstream& out
     );
 
     ~InstructionHandler(){};

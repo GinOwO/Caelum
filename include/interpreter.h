@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <iostream>
 
 class Interpreter{
 private:
@@ -23,10 +24,11 @@ private:
     int temp1Type=0, temp2Type=0;
     unsigned long long temp1, temp2;
     InstructionHandler* instrHandler;
-
 public:
     Interpreter();
     ~Interpreter();
+
+    std::stringstream output;
 
     void setRegister(int, unsigned long long);
     unsigned long long getRegister(int);
@@ -46,6 +48,7 @@ public:
     size_t getPointer() noexcept;
 
     unsigned long long getMemory(unsigned long long);
+    void setMemory(unsigned long long, unsigned long long);
 };
 
 #endif

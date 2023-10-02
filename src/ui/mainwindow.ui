@@ -84,7 +84,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionRun"/>
-    <addaction name="actionDebug"/>
+    <addaction name="actionBuild"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -117,8 +117,8 @@
    <addaction name="actionZoom_In"/>
    <addaction name="actionZoom_Out"/>
    <addaction name="separator"/>
+   <addaction name="actionBuild"/>
    <addaction name="actionRun"/>
-   <addaction name="actionDebug"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -269,20 +269,23 @@
     <string>Run</string>
    </property>
    <property name="shortcut">
-    <string>F6</string>
+    <string>F5</string>
    </property>
   </action>
-  <action name="actionDebug">
+  <action name="actionBuild">
    <property name="icon">
     <iconset>
      <normaloff>:/icons/play-circle.svg</normaloff>
      <normalon>:/icons/dark/dark/debug.svg</normalon>:/icons/play-circle.svg</iconset>
    </property>
    <property name="text">
-    <string>Debug</string>
+    <string>Build</string>
+   </property>
+   <property name="toolTip">
+    <string>Build</string>
    </property>
    <property name="shortcut">
-    <string>F5</string>
+    <string>F6</string>
    </property>
   </action>
   <action name="actionFindNext">

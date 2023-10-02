@@ -16,8 +16,9 @@ InstructionHandler::InstructionHandler(
     std::function<void(unsigned long long)> pushFn,
     std::function<unsigned long long()> popFn,
     std::function<int(int)> getRegSz,
-    std::function<size_t()> getPtr
-) : Ring4(setReg, getReg, setFlg, getFlg, setPtr, pushFn, popFn, getRegSz){
+    std::function<size_t()> getPtr,
+    std::stringstream& out
+) : Ring4(setReg, getReg, setFlg, getFlg, setPtr, pushFn, popFn, getRegSz, out){
     instructionMap2 = std::unordered_map<int, std::function<void(int, int)>>{
         {3000, std::bind(&InstructionHandler::MOV,    this, std::placeholders::_1, std::placeholders::_2)},
         {3001, std::bind(&InstructionHandler::XCHG,   this, std::placeholders::_1, std::placeholders::_2)},

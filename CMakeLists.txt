@@ -28,6 +28,7 @@ qt_add_executable(Caelum
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
     resources/themes.qrc
+    src/ui/outputview.h src/ui/outputview.cpp src/ui/outputview.ui
 )
 
 target_link_libraries(Caelum PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

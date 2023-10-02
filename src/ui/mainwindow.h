@@ -1,6 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "interpreter.h"
+
+#include "outputview.h"
+
 #include <vector>
 #include <map>
 #include <string>
@@ -56,6 +60,10 @@ private slots:
 
     void on_actionLight_triggered();
 
+    void on_actionBuild_triggered();
+
+    void on_actionRun_triggered();
+
 private:
     Ui::MainWindow *ui;
     QMessageBox saveOnClose;
@@ -64,6 +72,8 @@ private:
     QFile* fileHandle=nullptr;
     std::vector<QString> themes;
     bool fileStatus=false;
+    Interpreter* interpreter;
+    OutputView output;
 
     void openFile(int=0);
     void closeFile();
@@ -71,5 +81,7 @@ private:
     void readFile();
     void find();
     void setTheme(int);
+
+    void dispOutput();
 };
 #endif // MAINWINDOW_H

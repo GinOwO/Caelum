@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OutputView</class>
+ <widget class="QMainWindow" name="OutputView">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Output</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="outLog">
+       <attribute name="title">
+        <string>Output</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QTextBrowser" name="outputLog">
+          <property name="inputMethodHints">
+           <set>Qt::ImhNone</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="memView">
+       <attribute name="title">
+        <string>Memory View</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QTreeWidget" name="registerView">
+            <column>
+             <property name="text">
+              <string>Register</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Value</string>
+             </property>
+            </column>
+            <item>
+             <property name="text">
+              <string>RAX</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>RBX</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>RCX</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>RDX</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>RDI</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>RSI</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R8</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R9</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R10</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R11</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R12</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R13</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R14</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R15</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTreeWidget" name="flagView">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <column>
+             <property name="text">
+              <string>Flag</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Value</string>
+             </property>
+            </column>
+            <item>
+             <property name="text">
+              <string>CF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>PF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>AF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>ZF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>TF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>IF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>DF</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLineEdit" name="lineEdit">
+              <property name="inputMethodHints">
+               <set>Qt::ImhLowercaseOnly</set>
+              </property>
+              <property name="placeholderText">
+               <string>set [Loc]:[Val],[Loc]:[Val]... | view [LBound]:[UBound] | Hex (no H)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>Submit</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QTextBrowser" name="textBrowser">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>525</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="inputMethodHints">
+             <set>Qt::ImhNone</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
