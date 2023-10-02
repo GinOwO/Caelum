@@ -1,9 +1,6 @@
 name: Build Windows
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 env:
   QT_VERSION: "6.5.0"
@@ -19,16 +16,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up MSVC
-      uses: ilammy/msvc-dev-cmd@v1.12.1
-
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        version: ${{ env.QT_VERSION }}
-        host: "windows"
-        target: "desktop"
-        arch: "win64_msvc2019_64"
+        aqtversion: '==3.1.*'
+        version: '6.5.0'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_mingw'
+        tools: 'tools_cmake tools_ninja'
         cache: 'true'
 
     - name: Install Ninja
