@@ -31,6 +31,10 @@ qt_add_executable(Caelum
     src/ui/outputview.h src/ui/outputview.cpp src/ui/outputview.ui
 )
 
+if(WIN32)
+    set_property(TARGET Caelum PROPERTY WIN32_EXECUTABLE true)
+endif()
+
 target_link_libraries(Caelum PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 target_include_directories(Caelum PRIVATE

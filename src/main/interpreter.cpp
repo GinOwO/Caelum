@@ -121,6 +121,7 @@ type:
 */
 void Interpreter::execute(){
     if(code.size() == 0) throw Exception::BadSyntaxException("Code not built");
+    size_t backup_ptr = ptr;
     this->output.clear();
     int cnt, i, type, lineNum, memTemp1, memTemp2;
     unsigned long long a, b, val;
@@ -222,29 +223,37 @@ void Interpreter::execute(){
                 
             }
         }
-        catch(Exception::HaltException){return;}
+        catch(Exception::HaltException){
+            ptr = backup_ptr;
+            return;
+        }
         catch(Exception::BadInstructionException){
+            ptr = backup_ptr;
             throw Exception::BadSyntaxException("Bad instruction at line "+std::to_string(lineNum));
         }
         catch(Exception::UnknownException){
+            ptr = backup_ptr;
             throw Exception::BadSyntaxException("Unknown error at line "+std::to_string(lineNum));
         }
         catch(Exception::PointerOutOfBoundsException){
+            ptr = backup_ptr;
             throw Exception::BadSyntaxException("Pointer out of bounds at line "+std::to_string(lineNum));
         }
         catch(Exception::StackUnderflowException){
+            ptr = backup_ptr;
             throw Exception::BadSyntaxException("Popping from empty stack at line "+std::to_string(lineNum));
         }
-    }    
+    }
+    ptr = backup_ptr;
 }
 
 void Interpreter::build(const std::string& instructions){
+    size_t h = std::hash<std::string>{}(instructions);
+    if(hash == h) return;
     this->code.clear();
     this->labelMap.clear();
     this->callStack = std::stack<unsigned long long>();
     unsigned long long i=0, j=0;
-    size_t h = std::hash<std::string>{}(instructions);
-    if(hash == h) return;
     std::string label, op, op1, op2, instr;
     std::stringstream ss(instructions);
     
@@ -323,7 +332,7 @@ void Interpreter::build(const std::string& instructions){
             i++;
         }
         if(!this->labelMap.count(ptr)) throw Exception::MissingGlobalException();
-        ptr = this->labelMap[ptr];
+        ptr = this->labelMap[ptr]; // TODO backup ptr for next run
         this->resolveLabels();
         hash = h;
     }
