@@ -183,3 +183,27 @@ QMenu::item:selected {
 QToolTip {
     background-color: black; color: white; border: 1px solid white;
 }
+
+QHeaderView {
+    background-color: rgb(42, 42, 42); /* Dark background color */
+    color: rgb(255, 255, 255); /* Text color */
+    border-color: rgb(58, 58, 58);
+    border-style: solid;
+    border-width: 1px;
+}
+
+QHeaderView::section {
+    background-color: rgb(42, 42, 42); /* Dark background color */
+    color: rgb(255, 255, 255); /* Text color */
+    padding: 4px; /* Adjust padding as needed */
+    border-color: rgb(58, 58, 58);
+    border-style: solid;
+    border-width: 1px;
+    border-bottom: none; /* Remove the bottom border to separate sections */
+}
+
+/* Hover effect for the header section (column) */
+QHeaderView::section:hover {
+    background-color: rgb(58, 58, 58); /* Hover background color */
+    color: rgb(255, 255, 255); /* Hover text color */
+}
