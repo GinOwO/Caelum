@@ -25,7 +25,7 @@ jobs:
         target: 'desktop'
         arch: 'win64_mingw'
         tools: 'tools_cmake tools_ninja'
-        cache: 'true'
+        cache: true
 
     - name: Install Ninja
       uses: seanmiddleditch/gha-setup-ninja@master
