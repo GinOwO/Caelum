@@ -8,14 +8,20 @@
 
 /*
 Class: Ring4
-Reserved for future instruction implementations.
+Non Standard Higher Order Instructions implemented using the C/C++ lib
 */
 
 class Ring4 : public Ring3{
 protected:
+    std::function<unsigned long long(unsigned long long)> getMem;
     std::stringstream& OUT;
     
-    void PUTS();
+    void PUTU();
+    void PUTI();
+    void PUTC();
+    void PUTD();
+    void PUTCH(unsigned char);
+    void PUTS(int);
     void FLUSH();
 public:
     Ring4(
@@ -27,8 +33,10 @@ public:
         std::function<void(unsigned long long)> pushFn,
         std::function<unsigned long long()> popFn,
         std::function<int(int)> getRegSz,
+        std::function<unsigned long long(unsigned long long)> getMem,
         std::stringstream& out
-    ) : Ring3(setReg, getReg, setFlg, getFlg, setPtr, pushFn, popFn, getRegSz), OUT(out){}
+    ) : Ring3(setReg, getReg, setFlg, getFlg, setPtr, pushFn, popFn, getRegSz),
+        OUT(out), getMem(getMem){}
     ~Ring4(){};
 };
 

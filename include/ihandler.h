@@ -18,15 +18,16 @@ class InstructionHandler : public Ring4{
     void CALL(int);
 public:
     InstructionHandler(
-        std::function<void(int, unsigned long long)> setReg,
-        std::function<unsigned long long(int)> getReg,
-        std::function<void(int, bool)> setFlg,
-        std::function<bool(int)> getFlg,
-        std::function<void(size_t)> setPtr,
-        std::function<void(unsigned long long)> pushFn,
-        std::function<unsigned long long()> popFn,
-        std::function<int(int)> getRegSz,
-        std::function<size_t()> getPtr,
+        std::function<void(int, unsigned long long)>& setReg,
+        std::function<unsigned long long(int)>& getReg,
+        std::function<void(int, bool)>& setFlg,
+        std::function<bool(int)>& getFlg,
+        std::function<void(size_t)>& setPtr,
+        std::function<void(unsigned long long)>& pushFn,
+        std::function<unsigned long long()>& popFn,
+        std::function<int(int)>& getRegSz,
+        std::function<size_t()>& getPtr,
+        std::function<unsigned long long(unsigned long long)>& getMem,
         std::stringstream& out
     );
 

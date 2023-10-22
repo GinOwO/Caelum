@@ -20,7 +20,7 @@ namespace RegexPatterns{
     std::regex isSubExpr = std::regex(R"/((?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:\d[\dA-F]*H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[([^\n\r,.]+)\])/", std::regex_constants::icase);
     std::regex token = std::regex(R"/((?:([ER]?[A-D]X|[A-D][HL]|\d[\dA-F]*H|\d+|[+\-/*\(\)]|[ER]?[SD]I|R[89][DWB]?|R1[0-5][DWB]?)| ))/", std::regex_constants::icase);
     std::regex emptyLine = std::regex(R"/(^\s*$)/");
-    std::regex global = std::regex(R"/(^\s*global\s+([_a-zA-Z]\w*)\s*$)/", std::regex_constants::icase);
+    std::regex global = std::regex(R"/(^\s*global\s+([_a-zA-Z][_a-zA-Z]*)\s*$)/", std::regex_constants::icase);
     std::regex hlt = std::regex(R"/(^\s*hlt\s*$)/", std::regex_constants::icase);
     std::regex labelOnly = std::regex(R"/(^\s*([_a-zA-Z]\w*)\s*\:\s*$)/");
 }
@@ -82,14 +82,17 @@ Lexer::Lexer(){
         {"jnc",  2021},  {"js",    2022},  {"jns",    2023},
         {"loop", 2024},  {"loope", 2025},  {"loopne", 2026},
         {"call", 2027},  {"push",  2028},  {"pop",    2029},
+        // Ring 4 instructions have 5 as 100s place + 1 operand
+        {"puts", 2500},  {"putch", 2501},
 
         // instructions that take no operands
         {"nop",  1000},  {"hlt",   1001},  {"ret",    1002},
         {"aaa",  1003},  {"aas",   1003},  {"aam",    1004},
         {"aad",  1005},  {"daa",   1006},  {"das",    1007},
 
-        // Ring 4 instructions have 5 as 100s place
-        {"puts", 1500}, {"flush", 1501},
+        // Ring 4 instructions have 5 as 100s place + 0 operand
+        {"flush",1500},  {"putu",  1501},  {"puti",   1502},
+        {"putc", 1503},  {"putd",  1504},
     };
 }
 
@@ -182,7 +185,9 @@ bool Lexer::isEmptyLine(const std::string& s) noexcept {
 
 std::string Lexer::isGlobal(const std::string& s) noexcept{
     std::smatch match;
-    std::regex_search(s, match, RegexPatterns::global);
+    std::regex_search(s, match, RegexPatterns::elimComment);
+    std::string ss = match[1];
+    std::regex_search(ss, match, RegexPatterns::global);
     return match[1];
 }
 

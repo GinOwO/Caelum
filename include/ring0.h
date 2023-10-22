@@ -49,8 +49,7 @@ public:
         std::function<void(unsigned long long)> pushFn,
         std::function<unsigned long long()> popFn,
         std::function<int(int)> getRegSz
-    )
-        : setRegister(setReg), getRegister(getReg), setFlag(setFlg),
+        ) : setRegister(setReg), getRegister(getReg), setFlag(setFlg),
           getFlag(getFlg), setPointer(setPtr), push(pushFn), pop(popFn),
           getRegSize(getRegSz){}
     ~Ring0(){}

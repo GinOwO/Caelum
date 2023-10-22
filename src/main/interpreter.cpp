@@ -19,7 +19,7 @@
 
 Interpreter::Interpreter(){
     this->registers = std::vector<std::vector<bool>>(18, std::vector<bool>(64, false));
-    this->memory = std::vector<unsigned long long>(1<<20);
+    this->memory = std::vector<unsigned char>(1<<17);
     this->flags = std::vector<bool>(9, false);
 
     std::function<void(int, unsigned long long)> setRegisterFn = std::bind(&Interpreter::setRegister, this, std::placeholders::_1, std::placeholders::_2);
@@ -31,8 +31,9 @@ Interpreter::Interpreter(){
     std::function<unsigned long long()> popFn = std::bind(&Interpreter::POP, this);
     std::function<size_t()> getPtr = std::bind(&Interpreter::getPointer, this);
     std::function<void(size_t)> setPtr = std::bind(&Interpreter::setPointer, this, std::placeholders::_1);
+    std::function<unsigned long long(unsigned long long)> getMem = std::bind(&Interpreter::getMemory, this, std::placeholders::_1);
 
-    this->instrHandler = new InstructionHandler(setRegisterFn, getRegisterFn, setFlagFn, getFlagFn, setPtr, pushFn, popFn, getRegSizeFn, getPtr, output);
+    this->instrHandler = new InstructionHandler(setRegisterFn, getRegisterFn, setFlagFn, getFlagFn, setPtr, pushFn, popFn, getRegSizeFn, getPtr, getMem, output);
 }
 
 Interpreter::~Interpreter(){
@@ -121,12 +122,12 @@ type:
 */
 void Interpreter::execute(){
     if(code.size() == 0) throw Exception::BadSyntaxException("Code not built");
-    size_t backup_ptr = ptr;
+    this->ptr = this->entry;
     this->output.clear();
     int cnt, i, type, lineNum, memTemp1, memTemp2;
     unsigned long long a, b, val;
     while(true){
-        memTemp1=memTemp2=-1;
+        memTemp2=-1;
         std::vector<int> instr; i=0;
         if(ptr >= this->code.size()) throw Exception::BadSyntaxException("Code segment out of bounds");
         try{
@@ -224,27 +225,21 @@ void Interpreter::execute(){
             }
         }
         catch(Exception::HaltException){
-            ptr = backup_ptr;
             return;
         }
         catch(Exception::BadInstructionException){
-            ptr = backup_ptr;
             throw Exception::BadSyntaxException("Bad instruction at line "+std::to_string(lineNum));
         }
         catch(Exception::UnknownException){
-            ptr = backup_ptr;
             throw Exception::BadSyntaxException("Unknown error at line "+std::to_string(lineNum));
         }
         catch(Exception::PointerOutOfBoundsException){
-            ptr = backup_ptr;
             throw Exception::BadSyntaxException("Pointer out of bounds at line "+std::to_string(lineNum));
         }
         catch(Exception::StackUnderflowException){
-            ptr = backup_ptr;
             throw Exception::BadSyntaxException("Popping from empty stack at line "+std::to_string(lineNum));
         }
     }
-    ptr = backup_ptr;
 }
 
 void Interpreter::build(const std::string& instructions){
@@ -257,17 +252,17 @@ void Interpreter::build(const std::string& instructions){
     std::string label, op, op1, op2, instr;
     std::stringstream ss(instructions);
     
-    do std::getline(ss, instr, '\n'), j++; 
-    while(lexer.isEmptyLine(instr));
-    
-    instr = lexer.isGlobal(instr);
-    if(instr == "") throw Exception::MissingGlobalException();
-    
-    std::transform(instr.begin(), instr.end(), instr.begin(),
-        [](unsigned char c){ return std::tolower(c);});
-    if(!this->lexer.isValidLabel(instr)) throw Exception::BadLabelException();
-    ptr = std::hash<std::string>{}(instr);
+    do std::getline(ss, instr, '\n'), j++;
+    while(lexer.isEmptyLine(instr)&&ss);
     try{
+        instr = lexer.isGlobal(instr);
+        if(instr == "") throw Exception::MissingGlobalException();
+
+        std::transform(instr.begin(), instr.end(), instr.begin(),
+            [](unsigned char c){ return std::tolower(c);});
+        if(!this->lexer.isValidLabel(instr)) throw Exception::BadLabelException();
+        ptr = std::hash<std::string>{}(instr);
+
         while(j++ && std::getline(ss, instr, '\n')){
             if(lexer.isEmptyLine(instr)) continue;
             this->lexer.parse(instr, label, op, op1, op2);
@@ -332,16 +327,13 @@ void Interpreter::build(const std::string& instructions){
             i++;
         }
         if(!this->labelMap.count(ptr)) throw Exception::MissingGlobalException();
-        ptr = this->labelMap[ptr]; // TODO backup ptr for next run
+        this->entry = this->labelMap[ptr];
         this->resolveLabels();
         hash = h;
     }
     catch(Exception::BadLabelException){
         throw Exception::BadSyntaxException("Bad label at line "+std::to_string(j));
     }
-    //catch(Exception::BadInstructionException){
-    //    throw Exception::BadSyntaxException("Bad instruction at line "+std::to_string(j));
-    //}
     catch(Exception::LabelRedefinedException){
         throw Exception::BadSyntaxException("Label redefined at line "+std::to_string(j));
     }
@@ -350,6 +342,9 @@ void Interpreter::build(const std::string& instructions){
     }
     catch(Exception::MissingGlobalException){
         throw Exception::BadSyntaxException("Global should be first line or label not found");
+    }
+    catch(Exception::BadInstructionException){
+        throw Exception::BadSyntaxException("Bad instruction at line "+std::to_string(j));
     }
 }
 
@@ -373,11 +368,11 @@ size_t Interpreter::getPointer() noexcept{
     return ptr;
 }
 
-unsigned long long Interpreter::getMemory(unsigned long long addr){
+unsigned char Interpreter::getMemory(unsigned int addr){
     if(addr >= this->memory.size()) throw Exception::BadMemoryException();
     return this->memory[addr];
 }
 
-void Interpreter::setMemory(unsigned long long a, unsigned long long b){
+void Interpreter::setMemory(unsigned int a, unsigned char b){
     this->memory[a] = b;
 }
