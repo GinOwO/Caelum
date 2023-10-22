@@ -55,7 +55,6 @@ git clone https://github.com/GinOwO/Caelum.git
 
 ## Code Syntax
 A limited set of x86_64 assembly instructions are supported. The supported instructions are listed below:
-+------------------------------------------------------------------------+
 | Instruction | Description                                              |
 |-------------|----------------------------------------------------------|
 | `MOV`       | Memory move. Implemented as a special case in `interpreter.cpp`.            |
@@ -124,16 +123,13 @@ A limited set of x86_64 assembly instructions are supported. The supported instr
 | `RORX`      | Rotate right using the CL register.                      |
 | `PUSH`      | Push data onto the stack.                                |
 | `POP`       | Pop data from the stack.                                 |
-+------------------------------------------------------------------------+
 
 ### Non-Standard Instructions
 These are instructions that are not part of the x86_64 instruction set but are implemented in Caelum using higher level C/C++ constructs.
-+------------------------------------------------------------------------+
 | Instruction | Description                                              |
 |-------------|----------------------------------------------------------|
 | `PUTS`      | Print a number to the console.                           |
 | `FLUSH`     | Flush the out buffer.                                    |
-+------------------------------------------------------------------------+
 
 ## Notes
 - All programs must start with `global <label>` and end with `hlt`.
