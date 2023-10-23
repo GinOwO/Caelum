@@ -53,7 +53,7 @@ git clone https://github.com/GinOwO/Caelum.git
 3. Click on the Build button or F6 to build the code.
 4. Click on the Run button or F5 to run the code and see the output.
 
-## Code Syntax
+## Instruction Set
 A limited set of x86_64 assembly instructions are supported. The supported instructions can be found at the wiki [here](https://github.com/GinOwO/Caelum/wiki)
 
 ## Notes
