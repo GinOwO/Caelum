@@ -20,9 +20,11 @@ namespace RegexPatterns{
     std::regex isSubExpr = std::regex(R"/((?=\[(?:(?:[ER]?[A-D]X)|(?:[A-D][HL])|(?:\d+)|(?:\d[\dA-F]*H)|[+\-/*\(\) ]|(?:[ER]?[SD]I)|(?:R[89][DWB]?)|(?:R1[0-5][DWB]?))+\])\[([^\n\r,.]+)\])/", std::regex_constants::icase);
     std::regex token = std::regex(R"/((?:([ER]?[A-D]X|[A-D][HL]|\d[\dA-F]*H|\d+|[+\-/*\(\)]|[ER]?[SD]I|R[89][DWB]?|R1[0-5][DWB]?)| ))/", std::regex_constants::icase);
     std::regex emptyLine = std::regex(R"/(^\s*$)/");
-    std::regex global = std::regex(R"/(^\s*global\s+([_a-zA-Z]\w*)\s*$)/", std::regex_constants::icase);
+    std::regex global = std::regex(R"/(^\s*global\s+([_a-zA-Z][_a-zA-Z]*)\s*$)/", std::regex_constants::icase);
     std::regex hlt = std::regex(R"/(^\s*hlt\s*$)/", std::regex_constants::icase);
-    std::regex labelOnly = std::regex(R"/(^\s*([_a-zA-Z]\w*)\s*\:\s*$)/");
+    std::regex labelOnly = std::regex(R"/(^\s*([_a-zA-Z]\w*)\s*\:\s*$)/", std::regex_constants::icase);
+    std::regex patternDB1 = std::regex(R"/(^[ \t]*DB[ \t]+(\w+)[ \t]+(.*?)[ \t]*$)/", std::regex_constants::icase);
+    std::regex patternDB2 = std::regex(R"/(^[ \t]*(?:(\w+)[ \t]*\:[ \t]*)?(PUTS)[ \t]+(\w+)[ \t]*$)/", std::regex_constants::icase);
 }
 
 Lexer::Lexer(){
@@ -82,14 +84,17 @@ Lexer::Lexer(){
         {"jnc",  2021},  {"js",    2022},  {"jns",    2023},
         {"loop", 2024},  {"loope", 2025},  {"loopne", 2026},
         {"call", 2027},  {"push",  2028},  {"pop",    2029},
+        // Ring 4 instructions have 5 as 100s place + 1 operand
+        {"puts", 2500},  {"putch", 2501},
 
         // instructions that take no operands
         {"nop",  1000},  {"hlt",   1001},  {"ret",    1002},
         {"aaa",  1003},  {"aas",   1003},  {"aam",    1004},
         {"aad",  1005},  {"daa",   1006},  {"das",    1007},
 
-        // Ring 4 instructions have 5 as 100s place
-        {"puts", 1500}, {"flush", 1501},
+        // Ring 4 instructions have 5 as 100s place + 0 operand
+        {"flush",1500},  {"putu",  1501},  {"puti",   1502},
+        {"putc", 1503},  {"putd",  1504},
     };
 }
 
@@ -134,7 +139,8 @@ std::vector<std::string> Lexer::parse(const std::string& s){
         return {match[1], match[2], match[3], match[4]};
     if(std::regex_search(ss, match, RegexPatterns::mainPattern1)||
        std::regex_search(ss, match, RegexPatterns::jumpPattern) ||
-       std::regex_search(ss, match, RegexPatterns::callPattern)
+       std::regex_search(ss, match, RegexPatterns::callPattern) ||
+       std::regex_search(ss, match, RegexPatterns::patternDB2)
     )  return {match[1], match[2], match[3], ""};
     if(std::regex_search(ss, match, RegexPatterns::mainPattern0))
         return {match[1], match[2], "", ""};
@@ -173,6 +179,34 @@ bool Lexer::isJump(const std::string& s) noexcept{
     return std::regex_search(s, RegexPatterns::jumpPattern);
 }
 
+std::vector<unsigned char> Lexer::isDB(const std::string& s, size_t& t) noexcept{
+    std::smatch match; std::string s1;
+    if(std::regex_search(s, match, RegexPatterns::patternDB1)){
+        s1 = match[1];
+        std::transform(s1.begin(), s1.end(), s1.begin(),
+            [](unsigned char c){ return std::tolower(c);});
+        t = std::hash<std::string>{}(s1);
+
+        std::stringstream ss((std::string)match[2]);
+        std::vector<unsigned char> arr;
+        while(std::getline(ss, s1, ',')){
+            size_t start = s1.find_first_not_of(" \t\n\r");
+            if (start != std::string::npos) s1 = s1.substr(start);
+            size_t end = s1.find_last_not_of(" \t\n\r");
+            if (end != std::string::npos) s1 = s1.substr(0, end + 1);
+
+            if(s1[0]=='"'){
+                for(int i=1; i<s1.size()-1; i++)
+                    arr.push_back(s1[i]);
+            }
+            else arr.push_back((unsigned char) (std::stoull(s1)&0xFF));
+        }
+        return arr;
+    }
+    t = 0;
+    return {};
+}
+
 bool Lexer::isEmptyLine(const std::string& s) noexcept {
     std::smatch match, m1; std::string ss;
     std::regex_search(s, match, RegexPatterns::elimComment);
@@ -182,7 +216,9 @@ bool Lexer::isEmptyLine(const std::string& s) noexcept {
 
 std::string Lexer::isGlobal(const std::string& s) noexcept{
     std::smatch match;
-    std::regex_search(s, match, RegexPatterns::global);
+    std::regex_search(s, match, RegexPatterns::elimComment);
+    std::string ss = match[1];
+    std::regex_search(ss, match, RegexPatterns::global);
     return match[1];
 }
 

@@ -34,6 +34,7 @@ public:
     bool isSubExpr(const std::string&) noexcept;
     bool isEmptyLine(const std::string&) noexcept;
     bool isJump(const std::string&) noexcept;
+    std::vector<unsigned char> isDB(const std::string&, size_t&) noexcept;
 
     std::string isGlobal(const std::string&) noexcept;
 };

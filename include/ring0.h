@@ -20,7 +20,7 @@ public:
     std::function<bool(int)> getFlag;
     std::function<void(size_t)> setPointer;
     std::function<int(int)> getRegSize;
-    std::function<void(unsigned long long)> push; //call stack
+    std::function<void(unsigned long long)> push;
     std::function<unsigned long long()> pop;
 
     void MOV(int, int); // Memory move implemented in interpreter.cpp as a special case
@@ -49,8 +49,7 @@ public:
         std::function<void(unsigned long long)> pushFn,
         std::function<unsigned long long()> popFn,
         std::function<int(int)> getRegSz
-    )
-        : setRegister(setReg), getRegister(getReg), setFlag(setFlg),
+        ) : setRegister(setReg), getRegister(getReg), setFlag(setFlg),
           getFlag(getFlg), setPointer(setPtr), push(pushFn), pop(popFn),
           getRegSize(getRegSz){}
     ~Ring0(){}

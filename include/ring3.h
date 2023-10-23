@@ -14,8 +14,6 @@ Not meant to be used directly, but to be inherited by InstructionHandler
 
 class Ring3 : public Ring2{
 protected:
-    std::stack<unsigned long long> stack;
-
     void ADCX(int, int); // CF affect
     void SBBX(int, int); // CF affect
     void SHLX(int, int);

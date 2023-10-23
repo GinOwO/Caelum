@@ -12,14 +12,15 @@
 class Interpreter{
 private:
     std::stack<unsigned long long> callStack;
-    std::vector<unsigned long long> memory;
+    std::vector<unsigned char> memory;
+    std::unordered_map<size_t, int> dbMap;
     std::vector<std::vector<bool>> registers;
     std::unordered_map<size_t, int> labelMap;
     std::vector<std::vector<unsigned long long>> code;
     std::vector<bool> flags;
 
     Lexer lexer;
-    size_t hash = 0, ptr = 0;
+    size_t hash = 0, ptr = 0, entry = 0;
     int temp1Size=0, temp2Size=0;
     int temp1Type=0, temp2Type=0;
     unsigned long long temp1, temp2;
@@ -47,8 +48,8 @@ public:
     void setPointer(size_t);
     size_t getPointer() noexcept;
 
-    unsigned long long getMemory(unsigned long long);
-    void setMemory(unsigned long long, unsigned long long);
+    unsigned char getMemory(unsigned int);
+    void setMemory(unsigned int, unsigned char);
 };
 
 #endif

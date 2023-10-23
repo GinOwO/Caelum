@@ -53,89 +53,15 @@ git clone https://github.com/GinOwO/Caelum.git
 3. Click on the Build button or F6 to build the code.
 4. Click on the Run button or F5 to run the code and see the output.
 
-## Code Syntax
-A limited set of x86_64 assembly instructions are supported. The supported instructions are listed below:
-| Instruction | Description                                              |
-|-------------|----------------------------------------------------------|
-| `MOV`       | Memory move. Implemented as a special case in `interpreter.cpp`.            |
-| `XCHG`      | Exchange the values of two operands.                     |
-| `LEA`       | Load effective address. Implemented as a special case in `interpreter.cpp`. |
-| `INC`       | Increment the value of a register or memory location.    |
-| `ADD`       | Add two operands and store the result.                   |
-| `DEC`       | Decrement the value of a register or memory location.    |
-| `SUB`       | Subtract two operands and store the result.              |
-| `MUL`       | Multiply two operands and store the result.              |
-| `DIV`       | Divide two operands and store the result.                |
-| `AND`       | Bitwise AND operation.                                   |
-| `ANDN`      | Bitwise AND-NOT operation.                               |
-| `OR`        | Bitwise OR operation.                                    |
-| `XOR`       | Bitwise XOR operation.                                   |
-| `NOT`       | Bitwise NOT operation.                                   |
-| `NOP`       | No operation.                                            |
-| `HLT`       | Halt the CPU.                                            |
-| `ADC`       | Add with carry.                                          |
-| `SBB`       | Subtract with borrow.                                    |
-| `AAA`       | ASCII adjust after addition.                             |
-| `AAS`       | ASCII adjust after subtraction.                          |
-| `AAM`       | ASCII adjust after multiplication.                       |
-| `AAD`       | ASCII adjust before division.                            |
-| `DAA`       | Decimal adjust after addition.                           |
-| `DAS`       | Decimal adjust after subtraction.                        |
-| `SHL`       | Shift left.                                              |
-| `SHR`       | Shift right.                                             |
-| `SAL`       | Arithmetic shift left.                                   |
-| `SAR`       | Arithmetic shift right.                                  |
-| `ROL`       | Rotate left through carry.                               |
-| `ROR`       | Rotate right through carry.                              |
-| `RCL`       | Rotate left through carry with double precision.         |
-| `RCR`       | Rotate right through carry with double precision.        |
-| `CMP`       | Compare two operands.                                    |
-| `TEST`      | Logical compare.                                         |
-| `JMP`       | Jump to a specified location.                            |
-| `JE`        | Jump if equal (ZF=1).                                    |
-| `JNE`       | Jump if not equal (ZF=0).                                |
-| `JG`        | Jump if greater (SF=OF and ZF=0).                        |
-| `JGE`       | Jump if greater or equal (SF=OF).                        |
-| `JL`        | Jump if less (SF!=OF).                                   |
-| `JLE`       | Jump if less or equal (ZF=1 or SF!=OF).                  |
-| `JZ`        | Jump if zero (ZF=1).                                     |
-| `JNZ`       | Jump if not zero (ZF=0).                                 |
-| `JP`        | Jump if parity (PF=1).                                   |
-| `JNP`       | Jump if not parity (PF=0).                               |
-| `JPE`       | Jump if parity even (PF=1).                              |
-| `JPO`       | Jump if parity odd (PF=0).                               |
-| `JO`        | Jump if overflow (OF=1).                                 |
-| `JNO`       | Jump if no overflow (OF=0).                              |
-| `JC`        | Jump if carry (CF=1).                                    |
-| `JNC`       | Jump if no carry (CF=0).                                 |
-| `JS`        | Jump if sign (SF=1).                                     |
-| `JNS`       | Jump if no sign (SF=0).                                  |
-| `LOOP`      | Loop instruction.                                        |
-| `LOOPE`     | Loop while equal (ZF=1).                                 |
-| `LOOPNE`    | Loop while not equal (ZF=0).                             |
-| `RET`       | Return from subroutine.                                  |
-| `ADCX`      | Add with carry into the CF.                              |
-| `SBBX`      | Subtract with borrow from the CF.                        |
-| `SHLX`      | Shift left using the CL register.                        |
-| `SHRX`      | Shift right using the CL register.                       |
-| `SALX`      | Arithmetic shift left using the CL register.             |
-| `SARX`      | Arithmetic shift right using the CL register.            |
-| `RORX`      | Rotate right using the CL register.                      |
-| `PUSH`      | Push data onto the stack.                                |
-| `POP`       | Pop data from the stack.                                 |
-
-### Non-Standard Instructions
-These are instructions that are not part of the x86_64 instruction set but are implemented in Caelum using higher level C/C++ constructs.
-| Instruction | Description                                              |
-|-------------|----------------------------------------------------------|
-| `PUTS`      | Print a number to the console.                           |
-| `FLUSH`     | Flush the out buffer.                                    |
+## Instruction Set
+A limited set of x86_64 assembly instructions are supported. The supported instructions can be found at the wiki [here](https://github.com/GinOwO/Caelum/wiki)
 
 ## Notes
 - All programs must start with `global <label>` and end with `hlt`.
 - All labels must be unique.
 - The entry point of the program is the label specified after global.
 - All instructions are case insensitive.
+- Special Registers like SP currently do nothing.
 
 ## Contributing
 Please read [CONTRIBUTING.md](./.github/CONTRIBUTING.md) for details on contributing to this project.

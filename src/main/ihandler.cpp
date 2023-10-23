@@ -8,17 +8,18 @@
 #include <unordered_map>
 
 InstructionHandler::InstructionHandler(
-    std::function<void(int, unsigned long long)> setReg,
-    std::function<unsigned long long(int)> getReg,
-    std::function<void(int, bool)> setFlg,
-    std::function<bool(int)> getFlg,
-    std::function<void(size_t)> setPtr,
-    std::function<void(unsigned long long)> pushFn,
-    std::function<unsigned long long()> popFn,
-    std::function<int(int)> getRegSz,
-    std::function<size_t()> getPtr,
+    std::function<void(int, unsigned long long)>& setReg,
+    std::function<unsigned long long(int)>& getReg,
+    std::function<void(int, bool)>& setFlg,
+    std::function<bool(int)>& getFlg,
+    std::function<void(size_t)>& setPtr,
+    std::function<void(unsigned long long)>& pushFn,
+    std::function<unsigned long long()>& popFn,
+    std::function<int(int)>& getRegSz,
+    std::function<size_t()>& getPtr,
+    std::function<unsigned long long(unsigned long long)> &getMem,
     std::stringstream& out
-) : Ring4(setReg, getReg, setFlg, getFlg, setPtr, pushFn, popFn, getRegSz, out){
+) : Ring4(setReg, getReg, setFlg, getFlg, setPtr, pushFn, popFn, getRegSz, getMem, out){
     instructionMap2 = std::unordered_map<int, std::function<void(int, int)>>{
         {3000, std::bind(&InstructionHandler::MOV,    this, std::placeholders::_1, std::placeholders::_2)},
         {3001, std::bind(&InstructionHandler::XCHG,   this, std::placeholders::_1, std::placeholders::_2)},
@@ -81,6 +82,10 @@ InstructionHandler::InstructionHandler(
         {2027, std::bind(&InstructionHandler::CALL,   this, std::placeholders::_1)},
         {2028, std::bind(&InstructionHandler::PUSH,   this, std::placeholders::_1)},
         {2029, std::bind(&InstructionHandler::POP,    this, std::placeholders::_1)},
+
+        // Ring 4
+        {2500, std::bind(&InstructionHandler::PUTS,   this, std::placeholders::_1)},
+        {2501, std::bind(&InstructionHandler::PUTCH,  this, std::placeholders::_1)},
     };
 
     instructionMap0 = std::unordered_map<int, std::function<void()>>{
@@ -93,11 +98,12 @@ InstructionHandler::InstructionHandler(
         {1006, std::bind(&InstructionHandler::DAA,    this)},
         {1007, std::bind(&InstructionHandler::DAS,    this)},
 
-
-
         // Ring 4
-        {1500, std::bind(&InstructionHandler::PUTS,   this)},
-        {1501, std::bind(&InstructionHandler::FLUSH,  this)},
+        {1500, std::bind(&InstructionHandler::FLUSH,  this)},
+        {1501, std::bind(&InstructionHandler::PUTU,   this)},
+        {1502, std::bind(&InstructionHandler::PUTI,   this)},
+        {1503, std::bind(&InstructionHandler::PUTC,   this)},
+        {1504, std::bind(&InstructionHandler::PUTD,   this)},
     };
     this->getPointer = getPtr;
 }
