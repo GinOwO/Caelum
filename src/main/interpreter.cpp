@@ -19,8 +19,9 @@
 
 Interpreter::Interpreter(){
     this->registers = std::vector<std::vector<bool>>(18, std::vector<bool>(64, false));
-    this->memory = std::vector<unsigned char>(1<<17);
+    this->memory = std::vector<unsigned char>(1<<16);
     this->flags = std::vector<bool>(9, false);
+    std::vector<unsigned long long>(3*(1<<14));
 
     std::function<void(int, unsigned long long)> setRegisterFn = std::bind(&Interpreter::setRegister, this, std::placeholders::_1, std::placeholders::_2);
     std::function<unsigned long long(int)> getRegisterFn = std::bind(&Interpreter::getRegister, this, std::placeholders::_1);
@@ -221,7 +222,6 @@ void Interpreter::execute(){
                 this->instrHandler->execute(instr);
                 if(memTemp2!=-1)
                     memory[memTemp2] = temp2;
-                
             }
         }
         catch(Exception::HaltException){
@@ -277,6 +277,7 @@ void Interpreter::build(const std::string& instructions){
                 this->labelMap[std::hash<std::string>{}(label)] = i;
                 if(op == "") continue;
             }
+
             std::vector<unsigned long long> tokens{j};
             if(op != ""){
                 int mne = this->lexer.identifyMnemonic(op), t;

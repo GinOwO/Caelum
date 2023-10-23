@@ -79,14 +79,12 @@ void Ring3::PUSH(int src){
     /*Affects no flags*/
     if(src == 1) throw Exception::BadInstructionException();
     unsigned long long temp = getRegister(src);
-    stack.push(temp);
+    this->push(temp);
 }
 
 void Ring3::POP(int dest){
     /*Affects no flags*/
     if(dest == 1) throw Exception::BadInstructionException();
-    if(stack.empty()) throw Exception::StackUnderflowException();
-    unsigned long long temp = stack.top();
-    stack.pop();
+    unsigned long long temp = this->pop();
     setRegister(dest, temp);
 }
