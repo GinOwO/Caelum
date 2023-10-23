@@ -20,8 +20,9 @@ void Ring4::PUTCH(unsigned char c){
     OUT << (unsigned char) this->getRegister(c);
 }
 
-void Ring4::PUTS(int addr){
+void Ring4::PUTS(unsigned int addr){
     unsigned char n;
+    addr = this->getRegister(addr);
     while((n = this->getMem(addr++))) OUT << n;
 }
 

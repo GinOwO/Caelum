@@ -13,6 +13,7 @@ class Interpreter{
 private:
     std::stack<unsigned long long> callStack;
     std::vector<unsigned char> memory;
+    std::unordered_map<size_t, int> dbMap;
     std::vector<std::vector<bool>> registers;
     std::unordered_map<size_t, int> labelMap;
     std::vector<std::vector<unsigned long long>> code;

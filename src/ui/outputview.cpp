@@ -9,7 +9,7 @@
 
 namespace Pattern{
 std::regex setPattern = std::regex(R"/(\s*(\w+)\s*:\s*(\w+)\s*)/");
-std::regex getPattern = std::regex(R"/(\s*get\s+(\w+)\s*:\s*(\w+))/");
+std::regex getPattern = std::regex(R"/(\s*view\s+(\w+)\s*:\s*(\w+))/");
 }
 
 OutputView::OutputView(QWidget *parent) :
@@ -28,8 +28,7 @@ void OutputView::setInterpreter(Interpreter* t){
 
 void OutputView::setValues(){
     std::stringstream& ss = this->interpreter->output;
-    std::string s, text;
-    while(ss >> s) text+=s+'\n';
+    std::string text = ss.str();
     this->ui->outputLog->setText(QString::fromStdString(text));
     for(int i=0; i<6;i++){
         this->ui->registerView->topLevelItem(i)->setText(1,
@@ -72,8 +71,8 @@ void OutputView::on_pushButton_clicked(){
         }
         std::stringstream ss;
         for(;a<=b;a++){
-            ss << std::hex << std::setfill('0') << std::setw(5)
-               << a << " : " << this->interpreter->getMemory(a) << '\n';
+            ss << std::hex << std::setfill('0') << std::setw(5) << a << "\t:\t"
+               << (unsigned long long) this->interpreter->getMemory(a) << '\n';
         }
         this->ui->textBrowser->setText(QString::fromStdString(ss.str()));
     }

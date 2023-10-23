@@ -21,7 +21,7 @@ protected:
     void PUTC();
     void PUTD();
     void PUTCH(unsigned char);
-    void PUTS(int);
+    void PUTS(unsigned int);
     void FLUSH();
 public:
     Ring4(

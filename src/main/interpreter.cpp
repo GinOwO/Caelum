@@ -248,7 +248,7 @@ void Interpreter::build(const std::string& instructions){
     this->code.clear();
     this->labelMap.clear();
     this->callStack = std::stack<unsigned long long>();
-    unsigned long long i=0, j=0;
+    unsigned long long i=0, j=0, k=0x5000;
     std::string label, op, op1, op2, instr;
     std::stringstream ss(instructions);
     
@@ -265,6 +265,12 @@ void Interpreter::build(const std::string& instructions){
 
         while(j++ && std::getline(ss, instr, '\n')){
             if(lexer.isEmptyLine(instr)) continue;
+            size_t db; auto v = this->lexer.isDB(instr, db);
+            if(db>0){
+                dbMap[db] = k;
+                for(auto&c:v) this->setMemory(k++, c);
+                continue;
+            }
             this->lexer.parse(instr, label, op, op1, op2);
             if(instr.empty() && op.empty()) throw Exception::BadInstructionException();
             if(label != ""){
@@ -291,11 +297,16 @@ void Interpreter::build(const std::string& instructions){
                 }
                 tokens.push_back(mne);
                 if(op1 != ""){
-                    if(mne>=2005 && mne<=2027){
+                    if((mne>=2005 && mne<=2027)||mne==2500){
                         std::transform(op1.begin(), op1.end(), op1.begin(),
                             [](unsigned char c){ return std::tolower(c);});
                         size_t t = std::hash<std::string>{}(op1);
                         tokens.push_back(3);
+                        if(mne==2500){
+                            if(!dbMap.count(t))
+                                throw Exception::BadInstructionException();
+                             t = dbMap[t];
+                        }
                         tokens.push_back(t);
                     }
                     else if(lexer.isSubExpr(op1)){
