@@ -124,7 +124,7 @@ type:
 void Interpreter::execute(){
     if(code.size() == 0) throw Exception::BadSyntaxException("Code not built");
     this->ptr = this->entry;
-    this->output.clear();
+    this->output.str(std::string());;
     int cnt, i, type, lineNum, memTemp1, memTemp2;
     unsigned long long a, b, val;
     while(true){
